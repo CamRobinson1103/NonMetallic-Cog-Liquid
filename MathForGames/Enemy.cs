@@ -113,13 +113,7 @@ namespace MathForGames
             //Return true if the angle and distance are in range
             if (angle <= maxAngle && distance <= maxDistance)
                 return true;
-            Raylib.DrawCircleSector(
-                new System.Numerics.Vector2(_position.X * 32, _position.Y * 32),
-                maxDistance * 32,
-                (int)((180 / Math.PI) * -maxAngle) + 90,
-                (int)((180 / Math.PI) * maxAngle) + 90,
-                10,
-                Color.GREEN);
+           
 
             return false;
         }
@@ -176,3 +170,10 @@ namespace MathForGames
 //    (float)(_position.Y + maxDistance * Math.Sin(maxAngle)));
 
 //// Draw partial circle
+/// Raylib.DrawCircleSector(
+//new System.Numerics.Vector2(_position.X* 32, _position.Y* 32),
+//                maxDistance* 32,
+//                (int) ((180 / Math.PI) * -maxAngle) + 90,
+//                (int) ((180 / Math.PI) * maxAngle) + 90,
+//                10,
+//                Color.GREEN);
