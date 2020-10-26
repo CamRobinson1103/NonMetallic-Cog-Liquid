@@ -104,7 +104,7 @@ namespace MathForGames
                 return true;
 
             //Find the vector representing the distance between the actor and its target
-            Vector2 direction = Position - Target.Position;
+            Vector2 direction = Vector2.Normalize (Target.Position - Position);
             //Get the magnitude of the distance vector
             float distance = direction.Magnitude;
             //Use the inverse cosine to find the angle of the dot product in radians
@@ -113,6 +113,13 @@ namespace MathForGames
             //Return true if the angle and distance are in range
             if (angle <= maxAngle && distance <= maxDistance)
                 return true;
+            Raylib.DrawCircleSector(
+                new System.Numerics.Vector2(_position.X * 32, _position.Y * 32),
+                maxDistance * 32,
+                (int)((180 / Math.PI) * -maxAngle) + 90,
+                (int)((180 / Math.PI) * maxAngle) + 90,
+                10,
+                Color.GREEN);
 
             return false;
         }
@@ -156,3 +163,16 @@ namespace MathForGames
         }
     }
 }
+
+
+////Get the point maxAngle distance along a circle where radius = maxDistance
+//Vector2 topPosition = new Vector2(
+//    (float)(_position.X + maxDistance * Math.Cos(-maxAngle)),
+//    (float)(_position.Y + maxDistance * Math.Sin(-maxAngle)));
+
+////Get the point -maxAngle distance along a circle where radius = maxDistance
+//Vector2 bottomPosition = new Vector2(
+//   (float)(_position.X + maxDistance * Math.Cos(maxAngle)),
+//    (float)(_position.Y + maxDistance * Math.Sin(maxAngle)));
+
+//// Draw partial circle

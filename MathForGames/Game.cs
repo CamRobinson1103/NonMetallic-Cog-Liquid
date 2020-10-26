@@ -41,9 +41,6 @@ namespace MathForGames
         /// <returns></returns>
         public static Scene GetScene(int index)
         {
-            if (index < 0 || index >= _scenes.Length)
-                return new Scene();
-
             return _scenes[index];
         }
 
@@ -66,9 +63,7 @@ namespace MathForGames
         /// the scene is null</returns>
         public static int AddScene(Scene scene)
         {
-            //If the scene is null then return before running any other logic
-            if (scene == null)
-                return -1;
+            
 
             //Create a new temporary array that one size larger than the original
             Scene[] tempArray = new Scene[_scenes.Length + 1];
@@ -199,19 +194,23 @@ namespace MathForGames
             Goal goal = new Goal(30, 20,Color.GREEN, player, 'G', ConsoleColor.Green);
 
             //Initialize the enmies starting values
-            enemyHigh.Speed = 2;
-            enemyMid.Speed = 2;
+            enemyHigh.Speed = 1;
+            enemyMid.Speed = 1;
             enemyLow.Target = player;
 
             //Set player's starting speed
             player.Speed = 5;
 
             //Add actors to the scenes
-            scene1.AddActor(Player);
+            scene1.AddActor(player);
             scene1.AddActor(enemyHigh);
             scene1.AddActor(enemyMid);
             scene1.AddActor(enemyLow);
-            scene2.AddActor(Player);
+            enemyHigh.Target = player;
+            enemyMid.Target = player;
+            enemyLow.Target = player;
+            scene1.AddActor(goal);
+            scene2.AddActor(player);
             
             //Sets the starting scene index and adds the scenes to the scenes array
             int startingSceneIndex = 0;
@@ -235,7 +234,7 @@ namespace MathForGames
 
             _scenes[_currentSceneIndex].Update(deltaTime);
         }
-
+        
         //Used to display objects and other info on the screen.
         public void Draw()
         {
@@ -260,24 +259,25 @@ namespace MathForGames
         //Handles all of the main game logic including the main game loop.
         public void Run()
         {
+            Start();
             //Call start for all objects in game
 
 
             //Loops the game until either the game is set to be over or the window closes
-            while(!_gameOver || !Raylib.WindowShouldClose())
+            while (!_gameOver || !Raylib.WindowShouldClose())
             {
-                //Stores the current time between frames
-                float deltaTime = Raylib.GetFrameTime();
-                //Call update for all objects in game
-                Update(deltaTime);
-                //Call draw for all objects in game
-                Draw();
-                //Clear the input stream for the console window
-                while (Console.KeyAvailable)
-                    Console.ReadKey(true);
+               
+                while (!_gameOver && !Raylib.WindowShouldClose())
+                {
+                    float deltaTime = Raylib.GetFrameTime();
+                    Update(deltaTime);
+                    Draw();
+                    while (Console.KeyAvailable)
+                        Console.ReadKey(true);
+                }
             }
 
-            
+            End();
         }
     }
 }
