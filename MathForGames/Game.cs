@@ -199,7 +199,7 @@ namespace MathForGames
             enemyLow.Target = player;
 
             //Set player's starting speed
-            player.Speed = 5;
+            player.Speed = 2;
 
             //Add actors to the scenes
             scene1.AddActor(player);

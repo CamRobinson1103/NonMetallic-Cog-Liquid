@@ -99,6 +99,25 @@ namespace MathForGames
         /// <returns></returns>
         public bool CheckTargetInSight(float maxAngle, float maxDistance)
         {
+            //Get the point maxAngle distance along a circle where radius = maxDistance
+            Vector2 topPosition = new Vector2(
+                (float)(_position.X + maxDistance * Math.Cos(-maxAngle)),
+                (float)(_position.Y + maxDistance * Math.Sin(-maxAngle)));
+
+            //Get the point -maxAngle distance along a circle where radius = maxDistance
+            Vector2 bottomPosition = new Vector2(
+               (float)(_position.X + maxDistance * Math.Cos(maxAngle)),
+                (float)(_position.Y + maxDistance * Math.Sin(maxAngle)));
+
+            // Draw partial circle
+             Raylib.DrawCircleSector(
+            new System.Numerics.Vector2(_position.X * 32, _position.Y * 32),
+                            maxDistance * 32,
+                            (int)((180 / Math.PI) * -maxAngle) + 90,
+                            (int)((180 / Math.PI) * maxAngle) + 90,
+                            10,
+                            Color.GREEN);
+
             //Checks if the target has a value before continuing
             if (Target == null)
                 return true;
@@ -134,6 +153,8 @@ namespace MathForGames
             else if (_currentPoint == PatrolPointB && distance <= 1)
                 _currentPoint = PatrolPointA;
 
+
+
             //Calcute new velocity to travel to the next waypoint
             direction = _currentPoint - Position;
             Velocity = direction.Normalized * Speed;
@@ -143,7 +164,7 @@ namespace MathForGames
         {
             //If the target can be seen change the color to red and reset the player's position
             //If the target can't be seen change the color to blue
-            if(CheckTargetInSight(1.5f, 5))
+            if(CheckTargetInSight(0.5f, 3))
             {
                 _rayColor = Color.RED;
                 Target.Position = new Vector2();
